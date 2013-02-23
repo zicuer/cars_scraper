@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="QT"
+	Version="8,00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="MOC"
+			DisplayName="Qt MOC"
+			CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot; -I&quot;$(IntDir)\qt\.&quot; &quot;$(InputPath)&quot; -o&quot;$(IntDir)\qt\$(InputName)_moc.h&quot; -f"
+			Outputs="&quot;$(IntDir)\qt\$(InputName)_moc.h&quot;"
+			AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;"
+			FileExtensions="*.qh"
+			ExecutionDescription="Moc&apos;ing $(InputFileName)..."
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="RCC"
+			DisplayName="QT RCC"
+			CommandLine="xcopy /Q /C /Y $(InputPath) [WDirectory]\ 2&gt;NUL &amp;&amp; &quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;$(InputName)&quot; -no-compress -o &quot;$(IntDir)\qt\qrc_$(InputName).cpp&quot; [WDirectory]\$(InputFileName)"
+			Outputs="&quot;$(IntDir)\qt\qrc_$(InputName).cpp&quot;"
+			AdditionalDependencies="&quot;$(QTDIR)\bin\rcc.exe&quot;;[QRCDependencies]"
+			FileExtensions="*.qrc"
+			ExecutionDescription="Rcc&apos;ing $(InputFileName)..."
+			>
+			<Properties>
+				<StringProperty
+					Name="WDirectory"
+					DisplayName="Working direcotry"
+					Description="Working direcotry"
+					Switch="[value]"
+					DefaultValue="$(InputDir)"
+				/>
+				<StringProperty
+					Name="QRCDependencies"
+					DisplayName="QRCDependencies"
+					Description="Dependencies list"
+					Switch="[value]"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="UIC"
+			DisplayName="QT UIC"
+			CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(IntDir)\qt\$(InputName)_ui.h&quot; &quot;$(InputPath)&quot;"
+			Outputs="&quot;$(IntDir)\qt\$(InputName)_ui.h&quot;"
+			AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+			FileExtensions="*.ui"
+			ExecutionDescription="Uic&apos;ing $(InputFileName)..."
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>
