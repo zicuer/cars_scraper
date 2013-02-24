@@ -41,11 +41,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(OutDir)\qt"
+				AdditionalIncludeDirectories="&quot;$(boostdir)&quot;;&quot;$(qtdir)include&quot;;&quot;$(OutDir)\qt&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -117,10 +118,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(OutDir)\qt"
+				AdditionalIncludeDirectories="&quot;$(boostdir)&quot;;&quot;$(qtdir)include&quot;;&quot;$(OutDir)\qt&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -196,6 +198,34 @@
 			</File>
 			<File
 				RelativePath=".\common\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\common\utils.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\common\utils.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="scraper"
+			>
+			<File
+				RelativePath=".\scraper\offer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\scraper\offer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\scraper\request.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\scraper\request.h"
 				>
 			</File>
 		</Filter>
