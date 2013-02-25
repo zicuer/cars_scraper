@@ -7,7 +7,7 @@ namespace scraper
                           request_type type )
       : url ( url )
       , type ( type )
-      , captchas_count_ ( 0u )
-      , timeouts_count_ ( 0u )
+      , captchas_count ( 0u )
+      , timeouts_count ( 0u )
    {}
 }

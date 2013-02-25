@@ -21,11 +21,11 @@ namespace scraper
       template<class T>
          T & data ();
 
-      QUrl const url;
-      request_type const type;
+      QUrl url;
+      request_type type;
 
-      unsigned captchas_count_;
-      unsigned timeouts_count_;
+      unsigned captchas_count;
+      unsigned timeouts_count;
 
    private:
       any data_;

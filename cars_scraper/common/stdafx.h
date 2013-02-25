@@ -5,6 +5,8 @@
 #include <QtWebKit/QtWebKit>
 
 #include <boost/optional.hpp>
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
 #include <boost/any.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/regex.hpp>
@@ -14,6 +16,7 @@ using namespace boost;
 
 #include <string>
 #include <vector>
+#include <list>
 
 using namespace std;
 

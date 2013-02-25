@@ -14,6 +14,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath="..\tools\qt.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -27,7 +30,16 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="RCC"
+			/>
+			<Tool
+				Name="UIC"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="MOC"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -103,7 +115,16 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="RCC"
+			/>
+			<Tool
+				Name="UIC"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="MOC"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -228,6 +249,66 @@
 				RelativePath=".\scraper\request.h"
 				>
 			</File>
+			<File
+				RelativePath=".\scraper\scraper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\scraper\scraper.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+			</File>
+			<Filter
+				Name="impl"
+				>
+				<File
+					RelativePath=".\scraper\impl\filter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\scraper\impl\manager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\scraper\impl\manager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\scraper\impl\page.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\scraper\impl\page.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="MOC"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="MOC"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\main.cpp"
