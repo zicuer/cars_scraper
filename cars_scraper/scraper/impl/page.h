@@ -21,9 +21,9 @@ namespace impl
       void set_visible ( bool visible );
       bool is_visible () const;
 
-      optional<wstring>
+      optional<QWebElement>
          find_any ( wstring const& compressed_query ) const;
-      vector<wstring>
+      vector<QWebElement>
          find_all ( wstring const& compressed_query ) const;
 
    private:

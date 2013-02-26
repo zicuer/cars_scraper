@@ -16,7 +16,7 @@ namespace impl
          return queries;
       }
 
-      optional<wstring> find_any ( QWebElement element,
+      optional<QWebElement> find_any ( QWebElement element,
          vector<wstring>::const_iterator beg,
          vector<wstring>::const_iterator end )
       {
@@ -27,9 +27,9 @@ namespace impl
             i != childs.end(); ++i)
          {
             if (beg == end)
-               return utils::from_qt((*i).toPlainText());
+               return*i;
 
-            if (optional<wstring> const result = find_any(*i, beg, end))
+            if (optional<QWebElement> const result = find_any(*i, beg, end))
                return result;
          }
          return none;
@@ -38,7 +38,7 @@ namespace impl
       void find_all ( QWebElement element,
          vector<wstring>::const_iterator beg,
          vector<wstring>::const_iterator end,
-         vector<wstring> & results )
+         vector<QWebElement> & results )
       {
          QWebElementCollection const childs =
             element.findAll(utils::to_qt(*beg++));
@@ -47,7 +47,7 @@ namespace impl
             i != childs.end(); ++i)
          {
             if (beg == end)
-               results.push_back(utils::from_qt((*i).toPlainText()));
+               results.push_back(*i);
             else
                find_all(*i, beg, end, results);
          }
@@ -57,6 +57,7 @@ namespace impl
    page_t::page_t ( QObject * parent, filter_t filter )
       : QObject ( parent )
       , filter_ ( filter )
+      , page_   ( NULL )
    {
       reset();
 
@@ -69,7 +70,6 @@ namespace impl
 
    void page_t::reset ()
    {
-      filter_t filter;
       if (page_)
       {
          if (is_visible())
@@ -139,7 +139,7 @@ namespace impl
    }
 
    //////////////////////////////////////////////////////////////////////////
-   optional<wstring> page_t::find_any ( wstring const& compressed_query ) const
+   optional<QWebElement> page_t::find_any ( wstring const& compressed_query ) const
    {
       vector<wstring> const queries =
          split_query(compressed_query);
@@ -149,13 +149,13 @@ namespace impl
          queries.begin(), queries.end());
    }
 
-   vector<wstring> page_t::find_all ( wstring const& compressed_query ) const
+   vector<QWebElement> page_t::find_all ( wstring const& compressed_query ) const
    {
       vector<wstring> const queries =
          split_query(compressed_query);
       assert(!queries.empty());
 
-      vector<wstring> results;
+      vector<QWebElement> results;
       scraper::impl::find_all(page_->mainFrame()->documentElement(),
          queries.begin(), queries.end(), results);
 

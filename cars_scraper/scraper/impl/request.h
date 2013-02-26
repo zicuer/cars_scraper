@@ -20,7 +20,7 @@ namespace impl
       template<class T>
          T const* data () const;
       template<class T>
-         T & data ();
+         T * data ();
 
       QUrl url;
       request_type type;
@@ -57,7 +57,7 @@ namespace impl
    }
 
    template<class T>
-      T & request_t::data ()
+      T * request_t::data ()
    {
       try
       {

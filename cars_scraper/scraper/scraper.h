@@ -24,6 +24,12 @@ namespace scraper
       void stop_current_request ( bool processed );
       void process_next_request ();
 
+      bool check_captcha ();
+
+      bool process_offers_request ();
+      bool process_offer_request  ();
+      bool process_phones_request ();
+
    signals:
       void started ();
       void finished ( bool canceled );

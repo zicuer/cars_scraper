@@ -5,28 +5,29 @@
 
 namespace scraper
 {
+   using namespace impl;
+   using namespace utils;
+
    namespace
    {
       bool filter ( QUrl const& url )
       {
          QString const path = url.path();
-         return (url.host().contains(utils::to_qt(L"auto.ru"), Qt::CaseInsensitive) &&
-                 !path.endsWith(utils::to_qt(L"css"), Qt::CaseInsensitive) &&
-                 !path.endsWith(utils::to_qt(L"php"), Qt::CaseInsensitive) &&
-                 !path.endsWith(utils::to_qt(L"jpg"), Qt::CaseInsensitive) &&
-                 !path.endsWith(utils::to_qt(L"png"), Qt::CaseInsensitive) &&
-                 !path.endsWith(utils::to_qt(L"gif"), Qt::CaseInsensitive) &&
-                 !path.endsWith(utils::to_qt(L"js"),  Qt::CaseInsensitive));
+         return (url.host().contains(to_qt(L"auto.ru"), Qt::CaseInsensitive) &&
+                 !path.endsWith(to_qt(L"css"), Qt::CaseInsensitive) &&
+                 !path.endsWith(to_qt(L"php"), Qt::CaseInsensitive) &&
+                 !path.endsWith(to_qt(L"jpg"), Qt::CaseInsensitive) &&
+                 !path.endsWith(to_qt(L"png"), Qt::CaseInsensitive) &&
+                 !path.endsWith(to_qt(L"gif"), Qt::CaseInsensitive) &&
+                 !path.endsWith(to_qt(L"js"),  Qt::CaseInsensitive));
       }
 
-      static QUrl const search_page_url (utils::to_qt(L"http://all.auto.ru/extsearch/"));
+      static QUrl const search_page_url (to_qt(L"http://all.auto.ru/extsearch/"));
       static double const loading_timeout = 10.;
 
       static unsigned const max_timeouts_count = 3u;
       static unsigned const max_captchas_count = 3u;
    }
-
-   using namespace impl;
 
    scraper_t::scraper_t ( QObject * parent )
       : QObject ( parent )
@@ -74,7 +75,24 @@ namespace scraper
       if (!ok)
          return;
 
+      assert(request_);
+      if (!check_captcha())
+      {
+         bool processed = false;
+         switch (request_->type)
+         {
+         case rt_offers: { processed = process_offers_request(); } break;
+         case rt_offer:  { processed = process_offer_request();  } break;;
+         case rt_phone_numbers:
+                         { processed = process_phones_request(); } break;;
+         }
 
+         if (processed)
+         {
+            stop_current_request(processed);
+            process_next_request();
+         }
+      }
    }
 
    void scraper_t::on_timeout ()
@@ -98,7 +116,9 @@ namespace scraper
    {
       assert(request_);
 
-      page_->set_visible(false);
+      if (page_->is_visible())
+         page_->set_visible(false);
+
       page_->stop();
 
       if (!processed)
@@ -121,5 +141,138 @@ namespace scraper
          page_->load(request_->url,
             loading_timeout);
       }
+   }
+
+   //////////////////////////////////////////////////////////////////////////
+   bool scraper_t::check_captcha ()
+   {
+      assert(request_);
+      if (!page_->find_any(L"#captchaInput"))
+         return false;
+
+      if (!page_->is_visible())
+      {
+         if (++request_->captchas_count ==
+            max_captchas_count)
+         {
+            page_->set_visible(true);
+         }
+         else
+         {
+            assert(request_->captchas_count <
+               max_captchas_count);
+            page_->reset();
+
+            stop_current_request(false);
+            process_next_request();
+         }
+      }
+      return true;
+   }
+
+   bool scraper_t::process_offers_request ()
+   {
+      assert(request_ && request_->type == rt_offers);
+      vector<QWebElement> const offers =
+         page_->find_all(L"a.offer-list");
+
+      if (offers.empty())
+         return false;
+
+      for each (QWebElement const& offer in offers)
+      {
+         QUrl const offer_url =
+            to_url(offer.attribute(to_qt(L"href")));
+         requests_queue_.push_back(request_t(offer_url, rt_offer));
+      }
+
+      if (optional<QWebElement> const next_page =
+            page_->find_any(L"[title=Следующая]"))
+      {
+         QUrl const next_page_url =
+            request_->url.resolved(to_url(next_page->attribute(to_qt(L"href"))));
+         requests_queue_.push_back(request_t(next_page_url, rt_offers));
+      }
+
+      if (optional<QWebElement> const counter =
+            page_->find_any(L"div.cell-2|span"))
+      {
+         try
+         {
+            unsigned const offers_count =
+               lexical_cast<unsigned>(from_qt(counter->toPlainText()));
+            emit(offers_founded(offers_count));
+         }
+         catch (bad_lexical_cast const&)
+         {}
+      }
+
+      return true;
+   }
+
+   bool scraper_t::process_offer_request ()
+   {
+      optional<QWebElement> const model =
+         page_->find_any(L"a.auto-model_link");
+
+      if (!model)
+         return false;
+
+      offer_t offer;
+      offer.model = from_qt(model->toPlainText());
+
+      if (optional<QWebElement> const year =
+            page_->find_any(L"dd#card-year|strong"))
+         offer.year = get_year(year->toPlainText());
+
+      if (optional<QWebElement> const run =
+            page_->find_any(L"dd#card-run|strong"))
+         offer.run = get_run(run->toPlainText());
+
+      if (optional<QWebElement> const price =
+            page_->find_any(L"p.cost|strong"))
+         offer.price = get_price(price->toPlainText());
+
+      if (optional<QWebElement> const get_phones =
+            page_->find_any(L"span#get-sale-phones"))
+      {
+         QUrl const phones_url =
+            request_->url.resolved(to_url(get_phones->attribute(to_qt(L"rel"))));
+
+         request_t phones_request (phones_url, rt_phone_numbers);
+         phones_request.set_data<offer_t>(offer);
+
+         requests_queue_.push_front(phones_request);
+      }
+      else
+      {
+         request_->set_data<offer_t>(offer);
+         process_phones_request();
+      }
+
+      return true;
+   }
+
+   bool scraper_t::process_phones_request ()
+   {
+      assert(request_ && (request_->type == rt_offer) ||
+                         (request_->type == rt_phone_numbers));
+
+      vector<QWebElement> const phones =
+         page_->find_all(L"ul.sale-phones|strong");
+
+      if (phones.empty())
+         return false;
+
+      offer_t * offer = request_->data<offer_t>();
+      assert(offer);
+
+      for each (QWebElement const& phone in phones)
+         if (optional<phone_number_t> const offer_phone =
+               get_phone_number(phone.toPlainText()))
+            offer->phone_numbers.push_back(*offer_phone);
+
+      emit(offer_processed(*offer));
+      return true;
    }
 }
