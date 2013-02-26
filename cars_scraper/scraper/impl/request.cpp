@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "request.h"
 
-namespace scraper
+namespace scraper {
+namespace impl
 {
    request_t::request_t ( QUrl const& url,
                           request_type type )
@@ -10,4 +11,4 @@ namespace scraper
       , captchas_count ( 0u )
       , timeouts_count ( 0u )
    {}
-}
+}}

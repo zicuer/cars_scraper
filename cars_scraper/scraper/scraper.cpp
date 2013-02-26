@@ -26,9 +26,11 @@ namespace scraper
       static unsigned const max_captchas_count = 3u;
    }
 
+   using namespace impl;
+
    scraper_t::scraper_t ( QObject * parent )
       : QObject ( parent )
-      , page_ ( new impl::page_t(this) )
+      , page_ ( new page_t(this) )
    {
       page_->set_filter(bind(&filter, _1));
       QObject::connect(page_, SIGNAL(loaded(bool)),

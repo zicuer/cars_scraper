@@ -1,6 +1,7 @@
 #pragma once
 
-namespace scraper
+namespace scraper {
+namespace impl
 {
    enum request_type
    {
@@ -31,6 +32,12 @@ namespace scraper
       any data_;
    };
 
+   typedef
+      list<request_t>
+      requests_queue_t;
+
+   // impl
+   //////////////////////////////////////////////////////////////////////////
    template<class T>
       void request_t::set_data ( T const& data )
    {
@@ -60,4 +67,4 @@ namespace scraper
       {}
       return NULL;
    }
-}
+}}

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "impl/page.h"
-#include "request.h"
+#include "impl/request.h"
 #include "offer.h"
 
 namespace scraper
@@ -34,12 +34,8 @@ namespace scraper
    private:
       impl::page_t * page_;
 
-      typedef
-         list<request_t>
-         requests_queue_t;
-
-      requests_queue_t requests_queue_;
-      optional<request_t> request_;
+      impl::requests_queue_t requests_queue_;
+      optional<impl::request_t> request_;
 
    private:
       Q_OBJECT

@@ -242,14 +242,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\scraper\request.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\scraper\request.h"
-				>
-			</File>
-			<File
 				RelativePath=".\scraper\scraper.cpp"
 				>
 			</File>
@@ -307,6 +299,14 @@
 							Name="MOC"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\scraper\impl\request.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\scraper\impl\request.h"
+					>
 				</File>
 			</Filter>
 		</Filter>
