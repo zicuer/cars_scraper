@@ -53,6 +53,8 @@ namespace scraper
 
       page_->load(request_->url, none);
       page_->set_visible(true);
+
+      emit(started());
    }
 
    void scraper_t::stop ()
