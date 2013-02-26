@@ -23,7 +23,10 @@ namespace impl
       void set_filter ( filter_t filter );
       filter_t get_filter () const;
 
-      QWebFrame const* frame () const;
+      optional<wstring>
+         find_any ( wstring const& compressed_query ) const;
+      vector<wstring>
+         find_all ( wstring const& compressed_query ) const;
 
    signals:
       void loaded ( bool ok );

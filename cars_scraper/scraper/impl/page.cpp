@@ -6,6 +6,54 @@
 namespace scraper {
 namespace impl
 {
+   namespace
+   {
+      vector<wstring> split_query ( wstring const& compressed_query )
+      {
+         vector<wstring> queries;
+         split(queries, compressed_query,
+            is_any_of(L"|"));
+         return queries;
+      }
+
+      optional<wstring> find_any ( QWebElement element,
+         vector<wstring>::const_iterator beg,
+         vector<wstring>::const_iterator end )
+      {
+         QWebElementCollection const childs =
+            element.findAll(utils::to_qt(*beg++));
+
+         for (QWebElementCollection::const_iterator i = childs.begin();
+            i != childs.end(); ++i)
+         {
+            if (beg == end)
+               return utils::from_qt((*i).toPlainText());
+
+            if (optional<wstring> const result = find_any(*i, beg, end))
+               return result;
+         }
+         return none;
+      }
+
+      void find_all ( QWebElement element,
+         vector<wstring>::const_iterator beg,
+         vector<wstring>::const_iterator end,
+         vector<wstring> & results )
+      {
+         QWebElementCollection const childs =
+            element.findAll(utils::to_qt(*beg++));
+
+         for (QWebElementCollection::const_iterator i = childs.begin();
+            i != childs.end(); ++i)
+         {
+            if (beg == end)
+               results.push_back(utils::from_qt((*i).toPlainText()));
+            else
+               find_all(*i, beg, end, results);
+         }
+      }
+   }
+
    page_t::page_t ( QObject * parent )
       : QObject ( parent )
    {
@@ -101,8 +149,26 @@ namespace impl
    }
 
    //////////////////////////////////////////////////////////////////////////
-   QWebFrame const* page_t::frame () const
+   optional<wstring> page_t::find_any ( wstring const& compressed_query ) const
    {
-      return page_->mainFrame();
+      vector<wstring> const queries =
+         split_query(compressed_query);
+      assert(!queries.empty());
+
+      return scraper::impl::find_any(page_->mainFrame()->documentElement(),
+         queries.begin(), queries.end());
+   }
+
+   vector<wstring> page_t::find_all ( wstring const& compressed_query ) const
+   {
+      vector<wstring> const queries =
+         split_query(compressed_query);
+      assert(!queries.empty());
+
+      vector<wstring> results;
+      scraper::impl::find_all(page_->mainFrame()->documentElement(),
+         queries.begin(), queries.end(), results);
+
+      return results;
    }
 }}
