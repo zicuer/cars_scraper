@@ -13,11 +13,6 @@ namespace impl
       filter_ = filter;
    }
 
-   filter_t manager_t::get_filter () const
-   {
-      return filter_;
-   }
-
    // QNetworkAccessManager
    //////////////////////////////////////////////////////////////////////////
    QNetworkReply * manager_t::createRequest ( Operation op, QNetworkRequest const& request,

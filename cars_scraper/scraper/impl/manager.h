@@ -10,9 +10,7 @@ namespace impl
    {
    public:
       manager_t ( QObject * parent = NULL );
-
       void set_filter ( filter_t filter );
-      filter_t get_filter () const;
 
    // QNetworkAccessManager
    protected:

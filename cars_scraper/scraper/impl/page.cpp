@@ -54,8 +54,9 @@ namespace impl
       }
    }
 
-   page_t::page_t ( QObject * parent )
+   page_t::page_t ( QObject * parent, filter_t filter )
       : QObject ( parent )
+      , filter_ ( filter )
    {
       reset();
 
@@ -76,15 +77,13 @@ namespace impl
 
          QObject::disconnect(page_, SIGNAL(loadFinished(bool)),
                              this, SLOT(on_loaded(bool)));
-
-         filter = get_filter();
          page_->deleteLater();
       }
 
       page_ = new QWebPage(this);
       page_->setNetworkAccessManager(new manager_t(page_));
 
-      set_filter(filter);
+      set_manager_filter(filter_);
       QObject::connect(page_, SIGNAL(loadFinished(bool)),
                        this, SIGNAL(loaded(bool)));
    }
@@ -130,22 +129,13 @@ namespace impl
                              this, SIGNAL(canceled()));
          view->close();
       }
+
+      set_manager_filter(visible ? NULL : filter_);
    }
 
    bool page_t::is_visible () const
    {
       return (page_->view() != NULL);
-   }
-
-   //////////////////////////////////////////////////////////////////////////
-   void page_t::set_filter ( filter_t filter )
-   {
-      dynamic_cast<manager_t *>(page_->networkAccessManager())->set_filter(filter);
-   }
-
-   filter_t page_t::get_filter () const
-   {
-      return dynamic_cast<manager_t const*>(page_->networkAccessManager())->get_filter();
    }
 
    //////////////////////////////////////////////////////////////////////////
@@ -171,4 +161,12 @@ namespace impl
 
       return results;
    }
+
+   //////////////////////////////////////////////////////////////////////////
+   void page_t::set_manager_filter ( filter_t filter )
+   {
+      dynamic_cast<manager_t *>(page_->networkAccessManager())
+         ->set_filter(filter);
+   }
+
 }}

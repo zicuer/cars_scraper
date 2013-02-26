@@ -30,9 +30,8 @@ namespace scraper
 
    scraper_t::scraper_t ( QObject * parent )
       : QObject ( parent )
-      , page_ ( new page_t(this) )
+      , page_ ( new page_t(this, bind(&filter, _1)) )
    {
-      page_->set_filter(bind(&filter, _1));
       QObject::connect(page_, SIGNAL(loaded(bool)),
                        this, SLOT(on_loaded(bool)));
       QObject::connect(page_, SIGNAL(timeout()),
