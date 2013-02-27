@@ -198,6 +198,14 @@
 			Name="common"
 			>
 			<File
+				RelativePath=".\common\settings.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\common\settings.h"
+				>
+			</File>
+			<File
 				RelativePath=".\common\stdafx.cpp"
 				>
 				<FileConfiguration

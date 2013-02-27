@@ -14,6 +14,7 @@
 #include <boost/algorithm/string/regex.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
+#include <boost/noncopyable.hpp>
 
 using namespace boost;
 
@@ -24,4 +25,6 @@ using namespace boost;
 using namespace std;
 
 #include <assert.h>
+
 #include "utils.h"
+#include "settings.h"

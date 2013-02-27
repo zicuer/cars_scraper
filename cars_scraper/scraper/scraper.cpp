@@ -21,12 +21,6 @@ namespace scraper
                  !path.endsWith(to_qt(L"gif"), Qt::CaseInsensitive) &&
                  !path.endsWith(to_qt(L"js"),  Qt::CaseInsensitive));
       }
-
-      static QUrl const search_page_url (to_qt(L"http://all.auto.ru/extsearch/"));
-      static double const loading_timeout = 10.;
-
-      static unsigned const max_timeouts_count = 3u;
-      static unsigned const max_captchas_count = 3u;
    }
 
    scraper_t::scraper_t ( QObject * parent )
@@ -48,6 +42,9 @@ namespace scraper
       assert(requests_queue_.empty() &&
              !request_);
 
+      QUrl const search_page_url =
+         settings_t().get_value<QUrl>(L"scraper/search_page",
+         to_url(to_qt(L"http://all.auto.ru/extsearch/")));
       request_ =
          request_t(search_page_url, rt_offers);
 
@@ -102,7 +99,11 @@ namespace scraper
       assert(request_);
       if (!page_->is_visible())
       {
-         if (++request_->timeouts_count == max_timeouts_count)
+         unsigned const max_timeouts_count =
+            settings_t().get_value<unsigned>(L"scraper/max_timeouts_count", 3u);
+
+         if (++request_->timeouts_count >=
+             max_timeouts_count)
             stop();
          else
          {
@@ -140,6 +141,9 @@ namespace scraper
          request_ = requests_queue_.front();
          requests_queue_.pop_front();
 
+         double const loading_timeout =
+            settings_t().get_value<double>(L"scraper/loading_timeout", 10.);
+
          page_->load(request_->url,
             loading_timeout);
       }
@@ -154,7 +158,10 @@ namespace scraper
 
       if (!page_->is_visible())
       {
-         if (++request_->captchas_count ==
+         unsigned const max_captchas_count =
+            settings_t().get_value<unsigned>(L"scraper/max_captchas_count", 3u);
+
+         if (++request_->captchas_count >=
             max_captchas_count)
          {
             page_->set_visible(true);
