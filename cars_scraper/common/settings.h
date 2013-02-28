@@ -21,7 +21,7 @@ template<class T>
 }
 
 template<class T>
-   T settings_t::get_value ( wstring const& key, T const& def ) const
+   T settings_t::get_value ( wstring const& key, T const& def = T() ) const
 {
    QVariant const val = settings_.value(utils::to_qt(key));
    return val.isNull() ? def : utils::from_variant<T>(val);

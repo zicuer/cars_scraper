@@ -43,8 +43,7 @@ namespace scraper
              !request_);
 
       QUrl const search_page_url =
-         settings_t().get_value<QUrl>(L"scraper/search_page",
-         to_url(to_qt(L"http://all.auto.ru/extsearch/")));
+         to_url(settings_t().get_value<QString>(L"scraper/search_page"));
       request_ =
          request_t(search_page_url, rt_offers);
 
@@ -100,7 +99,7 @@ namespace scraper
       if (!page_->is_visible())
       {
          unsigned const max_timeouts_count =
-            settings_t().get_value<unsigned>(L"scraper/max_timeouts_count", 3u);
+            settings_t().get_value<unsigned>(L"scraper/max_timeouts_count");
 
          if (++request_->timeouts_count >=
              max_timeouts_count)
@@ -142,7 +141,7 @@ namespace scraper
          requests_queue_.pop_front();
 
          double const loading_timeout =
-            settings_t().get_value<double>(L"scraper/loading_timeout", 10.);
+            settings_t().get_value<double>(L"scraper/loading_timeout");
 
          page_->load(request_->url,
             loading_timeout);
@@ -159,7 +158,7 @@ namespace scraper
       if (!page_->is_visible())
       {
          unsigned const max_captchas_count =
-            settings_t().get_value<unsigned>(L"scraper/max_captchas_count", 3u);
+            settings_t().get_value<unsigned>(L"scraper/max_captchas_count");
 
          if (++request_->captchas_count >=
             max_captchas_count)

@@ -101,6 +101,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy /y $(ProjectDir)settings.ini $(OutDir)"
 			/>
 		</Configuration>
 		<Configuration
@@ -188,6 +189,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy /y $(ProjectDir)settings.ini $(OutDir)"
 			/>
 		</Configuration>
 	</Configurations>
@@ -350,6 +352,10 @@
 		</Filter>
 		<File
 			RelativePath=".\main.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\settings.ini"
 			>
 		</File>
 	</Files>
