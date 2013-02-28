@@ -53,7 +53,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(boostdir)&quot;;&quot;$(qtdir)include&quot;;&quot;$(OutDir)\qt&quot;"
+				AdditionalIncludeDirectories="&quot;$(boostdir)&quot;;&quot;$(qtdir)include&quot;;&quot;$(OutDir)\qt&quot;;&quot;$(ProjectDir)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -139,7 +139,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(boostdir)&quot;;&quot;$(qtdir)include&quot;;&quot;$(OutDir)\qt&quot;"
+				AdditionalIncludeDirectories="&quot;$(boostdir)&quot;;&quot;$(qtdir)include&quot;;&quot;$(OutDir)\qt&quot;;&quot;$(ProjectDir)&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -317,6 +317,36 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="gui"
+			>
+			<File
+				RelativePath=".\gui\main_window.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gui\main_window.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\gui\main_window.ui"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\main.cpp"

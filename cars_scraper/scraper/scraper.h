@@ -34,7 +34,7 @@ namespace scraper
       void started ();
       void finished ( bool canceled );
 
-      void offer_processed ( offer_t const& offer );
+      void offer_processed ( scraper::offer_t const& offer );
       void offers_founded ( unsigned count );
 
    private:

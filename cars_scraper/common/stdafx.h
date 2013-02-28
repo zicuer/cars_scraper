@@ -10,6 +10,7 @@
 #include <boost/any.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/regex.hpp>
+#include <boost/format.hpp>
 
 #include <boost/algorithm/string/regex.hpp>
 #include <boost/algorithm/string/split.hpp>

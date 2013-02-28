@@ -165,6 +165,17 @@ namespace scraper
             max_captchas_count)
          {
             page_->set_visible(true);
+            if (request_->type == rt_phone_numbers)
+            {
+               offer_t * offer = request_->data<offer_t>();
+               assert(offer);
+
+               requests_queue_.
+                  push_front(request_t(offer->url, rt_offer));
+
+               stop_current_request(true);
+               process_next_request();
+            }
          }
          else
          {
@@ -228,6 +239,7 @@ namespace scraper
          return false;
 
       offer_t offer;
+      offer.url = request_->url;
       offer.model = from_qt(model->toPlainText());
 
       if (optional<QWebElement> const year =
