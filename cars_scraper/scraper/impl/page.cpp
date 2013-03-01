@@ -112,7 +112,7 @@ namespace impl
       if (visible)
       {
          QWebView * view = new QWebView();
-         view->setWindowTitle(utils::to_qt(L""));
+         view->setWindowTitle(utils::to_qt(L"web"));
 
          QObject::connect(view, SIGNAL(destroyed()),
                           this, SIGNAL(canceled()));

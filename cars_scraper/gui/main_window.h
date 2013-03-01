@@ -13,8 +13,8 @@ namespace gui
 
    // gui
    private slots:
-      void on_find_start ();
-      void on_find_stop  ();
+      void on_searching_start ();
+      void on_searching_stop  ();
       void on_clear ();
 
       void on_show_offer ( int row, int column );

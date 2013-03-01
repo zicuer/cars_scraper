@@ -69,12 +69,12 @@ namespace gui
 
    // gui slots
    //////////////////////////////////////////////////////////////////////////
-   void main_window_t::on_find_start ()
+   void main_window_t::on_searching_start ()
    {
       scraper_.start();
    }
 
-   void main_window_t::on_find_stop ()
+   void main_window_t::on_searching_stop ()
    {
       scraper_.stop();
    }
@@ -117,8 +117,8 @@ namespace gui
    //////////////////////////////////////////////////////////////////////////
    void main_window_t::on_started ()
    {
-      ui_.find_start->setEnabled(false);
-      ui_.find_stop ->setEnabled(true);
+      ui_.searching_start->setEnabled(false);
+      ui_.searching_stop ->setEnabled(true);
 
       offers_founded_   = 0u;
       offers_processed_ = 0u;
@@ -126,8 +126,8 @@ namespace gui
 
    void main_window_t::on_finished ( bool canceled )
    {
-      ui_.find_start->setEnabled(true);
-      ui_.find_stop ->setEnabled(false);
+      ui_.searching_start->setEnabled(true);
+      ui_.searching_stop ->setEnabled(false);
 
       ui_.progress->setValue(100);
 
