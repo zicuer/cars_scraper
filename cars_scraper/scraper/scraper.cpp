@@ -204,6 +204,7 @@ namespace scraper
          unsigned const max_captchas_count =
             settings_t().get_value<unsigned>(L"scraper/max_captchas_count");
 
+         stop_current_request(false);
          if (++request_->captchas_count >=
             max_captchas_count)
          {
@@ -215,7 +216,6 @@ namespace scraper
                max_captchas_count);
             page_->reset();
          }
-         stop_current_request(false);
          process_next_request();
       }
       return true;
