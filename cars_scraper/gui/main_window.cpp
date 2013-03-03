@@ -87,7 +87,10 @@ namespace gui
 
    void main_window_t::on_offer_processed ( scraper::offer_t const& offer )
    {
+      ui_.table->setSortingEnabled(false);
       model()->add_offer(offer);
+      ui_.table->setSortingEnabled(true);
+
       ++offers_processed_;
 
       update();
