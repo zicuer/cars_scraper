@@ -124,6 +124,8 @@ namespace impl
 
          view->setPage(page_);
          view->show();
+
+         view->raise();
          view->activateWindow();
       }
       else

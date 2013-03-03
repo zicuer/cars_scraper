@@ -5,6 +5,41 @@
 
 namespace gui
 {
+   namespace
+   {
+      wstring statrt_button_text ( scraper::state_t state )
+      {
+         switch (state)
+         {
+         case scraper::state_stopped:
+            return L"Найти";
+         case scraper::state_started:
+            return L"Пауза";
+         case scraper::state_paused:
+            return L"Продожить";
+         }
+
+         assert(false);
+         return L"";
+      }
+
+      wstring status_text ( scraper::state_t state )
+      {
+         switch (state)
+         {
+         case scraper::state_stopped:
+            return L"Остановлено";
+         case scraper::state_started:
+            return L"Поиск";
+         case scraper::state_paused:
+            return L"Пауза";
+         }
+
+         assert(false);
+         return L"";
+      }
+   }
+
    main_window_t::main_window_t ()
       : scraper_ ( this )
       , offers_founded_ ( 0u )
@@ -18,21 +53,41 @@ namespace gui
       ui_.table->setModel(proxy);
 
       QObject::connect(&scraper_, SIGNAL(started()),
-                       this, SLOT(on_started()));
+                       this, SLOT(on_status_changed()));
       QObject::connect(&scraper_, SIGNAL(finished(bool)),
-                       this, SLOT(on_finished(bool)));
+                       this, SLOT(on_status_changed()));
+
+      QObject::connect(&scraper_, SIGNAL(paused(bool)),
+                       this, SLOT(on_status_changed()));
+      QObject::connect(&scraper_, SIGNAL(resumed()),
+                       this, SLOT(on_status_changed()));
 
       QObject::connect(&scraper_, SIGNAL(offer_processed(scraper::offer_t const&)),
                        this, SLOT(on_offer_processed(scraper::offer_t const&)));
       QObject::connect(&scraper_, SIGNAL(offers_founded(unsigned)),
                        this, SLOT(on_offers_founded(unsigned)));
+
+      update_ui();
    }
 
    // gui slots
    //////////////////////////////////////////////////////////////////////////
    void main_window_t::on_searching_start ()
    {
-      scraper_.start();
+      switch (scraper_.state())
+      {
+      case scraper::state_stopped:
+         scraper_.start();
+         break;
+
+      case scraper::state_started:
+         scraper_.pause();
+         break;
+
+      case scraper::state_paused:
+         scraper_.resume();
+         break;
+      }
    }
 
    void main_window_t::on_searching_stop ()
@@ -43,7 +98,7 @@ namespace gui
    void main_window_t::on_clear ()
    {
       model()->rem_offers();
-      update();
+      update_ui();
    }
 
    void main_window_t::on_show_offer ( QModelIndex const& index )
@@ -63,26 +118,15 @@ namespace gui
 
    // scraper slots
    //////////////////////////////////////////////////////////////////////////
-   void main_window_t::on_started ()
+   void main_window_t::on_status_changed ()
    {
-      ui_.searching_start->setEnabled(false);
-      ui_.searching_stop ->setEnabled(true);
+      if (scraper_.state() == scraper::state_stopped)
+      {
+         offers_processed_ = 0u;
+         offers_founded_ = 0u;
+      }
 
-      offers_founded_   = 0u;
-      offers_processed_ = 0u;
-
-      update();
-   }
-
-   void main_window_t::on_finished ( bool canceled )
-   {
-      ui_.searching_start->setEnabled(true);
-      ui_.searching_stop ->setEnabled(false);
-
-      offers_founded_   = 0u;
-      offers_processed_ = 0u;
-
-      update();
+      update_ui();
    }
 
    void main_window_t::on_offer_processed ( scraper::offer_t const& offer )
@@ -92,14 +136,13 @@ namespace gui
       ui_.table->setSortingEnabled(true);
 
       ++offers_processed_;
-
-      update();
+      update_ui();
    }
 
    void main_window_t::on_offers_founded ( unsigned count )
    {
       offers_founded_ = count;
-      update();
+      update_ui();
    }
 
    // impl
@@ -114,25 +157,45 @@ namespace gui
       return dynamic_cast<impl::offers_table_model_t *>(proxy()->sourceModel());
    }
 
-   void main_window_t::update ()
+   void main_window_t::update_ui ()
    {
-      if (offers_founded_ != 0)
-      {
-         int const progress =
-            static_cast<int>(100. * offers_processed_ / offers_founded_);
-         ui_.progress->setValue(progress);
+      scraper::state_t const state =
+         scraper_.state();
 
-         static wformat fmt (L"Объявлений обработано: %d/%d");
-         ui_.status->showMessage(utils::to_qt(str(fmt % offers_processed_ % offers_founded_)));
-      }
-      else
-      {
-         ui_.progress->setValue(100);
+      wformat status_fmt (L"[%s] %s");
+      status_fmt % status_text(state);
 
-         static wformat fmt (L"Объявлений найдено: %d");
-         ui_.status->showMessage(utils::to_qt(str(fmt % model()->offers_count())));
+      int progress = 0;
+      switch (state)
+      {
+      case scraper::state_stopped:
+         {
+            static wformat msg_fmt (L"Объявлений найдено: %d");
+            status_fmt % str(msg_fmt % model()->offers_count());
+         }
+         break;
+
+      case scraper::state_started:
+      case scraper::state_paused:
+         {
+            static wformat msg_fmt (L"Объявлений обработано: %d/%d");
+            status_fmt % str(msg_fmt % offers_processed_ % offers_founded_);
+
+            if (offers_founded_ != 0)
+               progress =
+                  static_cast<int>(100. * offers_processed_ / offers_founded_);
+         }
+         break;
       }
+
+      ui_.status->showMessage(utils::to_qt(str(status_fmt)));
+      ui_.progress->setValue(progress);
+
+      ui_.searching_start->
+         setText(utils::to_qt(statrt_button_text(state)));
+      ui_.searching_stop->setEnabled
+         (state != scraper::state_stopped);
 
       ui_.clear->setEnabled(model()->offers_count() > 0u);
-   }
+  }
 }

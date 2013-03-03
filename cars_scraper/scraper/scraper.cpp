@@ -32,7 +32,18 @@ namespace scraper
       QObject::connect(page_, SIGNAL(timeout()),
                        this, SLOT(on_timeout()));
       QObject::connect(page_, SIGNAL(canceled()),
-                       this, SLOT(stop()));
+                       this, SLOT(pause()));
+   }
+
+   state_t scraper_t::state () const
+   {
+      if (request_)
+         return state_started;
+
+      if (!requests_queue_.empty())
+         return state_paused;
+
+      return state_stopped;
    }
 
    // public slots
@@ -44,11 +55,9 @@ namespace scraper
 
       QUrl const search_page_url =
          to_url(settings_t().get_value<QString>(L"scraper/search_page"));
-      request_ =
-         request_t(search_page_url, rt_offers);
-
-      page_->load(request_->url, none);
-      page_->set_visible(true);
+      requests_queue_.
+         push_front(request_t(search_page_url, rt_search));
+      process_next_request();
 
       emit(started());
    }
@@ -57,13 +66,26 @@ namespace scraper
    {
       assert(request_);
 
-      page_->set_visible(false);
-      page_->stop();
-
+      stop_current_request(false);
       requests_queue_.clear();
-      request_.reset();
 
       emit(finished(true));
+   }
+
+   void scraper_t::pause ()
+   {
+      assert(request_);
+
+      stop_current_request(false);
+      emit(paused(true));
+   }
+
+   void scraper_t::resume ()
+   {
+      assert(!requests_queue_.empty());
+
+      process_next_request();
+      emit(resumed());
    }
 
    // private slots
@@ -79,6 +101,7 @@ namespace scraper
          bool processed = false;
          switch (request_->type)
          {
+         case rt_search:
          case rt_offers: { processed = process_offers_request(); } break;
          case rt_offer:  { processed = process_offer_request();  } break;;
          case rt_phone_numbers:
@@ -101,14 +124,15 @@ namespace scraper
          unsigned const max_timeouts_count =
             settings_t().get_value<unsigned>(L"scraper/max_timeouts_count");
 
+         stop_current_request(false);
          if (++request_->timeouts_count >=
              max_timeouts_count)
-            stop();
-         else
          {
-            stop_current_request(false);
-            process_next_request();
+           request_->timeouts_count = 0u;
+           emit(paused(false));
          }
+         else
+            process_next_request();
       }
    }
 
@@ -124,7 +148,20 @@ namespace scraper
       page_->stop();
 
       if (!processed)
-         requests_queue_.push_front(*request_);
+      {
+         if (request_->type == rt_phone_numbers)
+         {
+            offer_t const* offer
+               = request_->data<offer_t>();
+            assert(offer);
+
+            requests_queue_.
+               push_front(request_t(offer->url, rt_offer));
+         }
+         else
+            requests_queue_
+               .push_front(*request_);
+      }
 
       request_.reset();
    }
@@ -140,11 +177,18 @@ namespace scraper
          request_ = requests_queue_.front();
          requests_queue_.pop_front();
 
-         double const loading_timeout =
-            settings_t().get_value<double>(L"scraper/loading_timeout");
-
-         page_->load(request_->url,
-            loading_timeout);
+         if (request_->type == rt_search)
+         {
+            page_->load(request_->url, none);
+            page_->set_visible(true);
+         }
+         else
+         {
+            double const loading_timeout =
+               settings_t().get_value<double>(L"scraper/loading_timeout");
+            page_->load(request_->url,
+               loading_timeout);
+         }
       }
    }
 
@@ -164,34 +208,23 @@ namespace scraper
             max_captchas_count)
          {
             page_->set_visible(true);
-            if (request_->type == rt_phone_numbers)
-            {
-               offer_t * offer = request_->data<offer_t>();
-               assert(offer);
-
-               requests_queue_.
-                  push_front(request_t(offer->url, rt_offer));
-
-               stop_current_request(true);
-               process_next_request();
-            }
          }
          else
          {
             assert(request_->captchas_count <
                max_captchas_count);
             page_->reset();
-
-            stop_current_request(false);
-            process_next_request();
          }
+         stop_current_request(false);
+         process_next_request();
       }
       return true;
    }
 
    bool scraper_t::process_offers_request ()
    {
-      assert(request_ && request_->type == rt_offers);
+      assert(request_ && ((request_->type == rt_search) ||
+                          (request_->type == rt_offers)));
       vector<QWebElement> const offers =
          page_->find_all(L"a.offer-list");
 
@@ -231,6 +264,8 @@ namespace scraper
 
    bool scraper_t::process_offer_request ()
    {
+      assert(request_ && (request_->type == rt_offer));
+
       optional<QWebElement> const model =
          page_->find_any(L"a.auto-model_link");
 
@@ -275,8 +310,8 @@ namespace scraper
 
    bool scraper_t::process_phones_request ()
    {
-      assert(request_ && (request_->type == rt_offer) ||
-                         (request_->type == rt_phone_numbers));
+      assert(request_ && ((request_->type == rt_offer) ||
+                          (request_->type == rt_phone_numbers)));
 
       vector<QWebElement> const phones =
          page_->find_all(L"ul.sale-phones|strong");

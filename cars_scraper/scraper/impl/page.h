@@ -9,8 +9,8 @@ namespace impl
       : public QObject
    {
    public:
-      page_t ( QObject * parent = NULL,
-               filter_t filter = NULL );
+      explicit page_t ( QObject * parent = NULL,
+                        filter_t filter = NULL );
       void reset ();
 
       void load ( QUrl const& url,

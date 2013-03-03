@@ -6,15 +6,27 @@
 
 namespace scraper
 {
+   enum state_t
+   {
+      state_stopped,
+      state_started,
+      state_paused
+   };
+
    class scraper_t
       : public QObject
    {
    public:
-      scraper_t ( QObject * parent = NULL );
+      explicit scraper_t ( QObject * parent = NULL );
+
+      state_t state () const;
 
    public slots:
       void start ();
       void stop ();
+
+      void pause ();
+      void resume ();
 
    private slots:
       void on_loaded ( bool ok );
@@ -32,7 +44,10 @@ namespace scraper
 
    signals:
       void started ();
-      void finished ( bool canceled );
+      void finished ( bool user );
+
+      void paused ( bool user );
+      void resumed ();
 
       void offer_processed ( scraper::offer_t const& offer );
       void offers_founded ( unsigned count );

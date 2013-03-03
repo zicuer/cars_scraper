@@ -26,8 +26,7 @@ namespace gui
 
    // scraper
    private slots:
-      void on_started  ();
-      void on_finished ( bool canceled );
+      void on_status_changed ();
 
       void on_offer_processed ( scraper::offer_t const& offer );
       void on_offers_founded ( unsigned count );
@@ -36,7 +35,7 @@ namespace gui
       QAbstractProxyModel * proxy () const;
       impl::offers_table_model_t * model () const;
 
-      void update ();
+      void update_ui ();
 
    private:
       scraper::scraper_t scraper_;

@@ -5,6 +5,7 @@ namespace impl
 {
    enum request_type
    {
+      rt_search,
       rt_offers,
       rt_offer,
       rt_phone_numbers
