@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "offer_table_model.h"
-#include "offer_table_model_moc.h"
+#include "offers_table_model.h"
+#include "offers_table_model_moc.h"
 
 namespace gui {
 namespace impl

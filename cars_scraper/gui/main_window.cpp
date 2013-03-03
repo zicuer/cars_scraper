@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "main_window.h"
 #include "main_window_moc.h"
-#include "impl/offer_table_model.h"
+#include "impl/offers_table_model.h"
 
 namespace gui
 {

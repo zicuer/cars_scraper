@@ -367,11 +367,11 @@
 				Name="impl"
 				>
 				<File
-					RelativePath=".\gui\impl\offer_table_model.cpp"
+					RelativePath=".\gui\impl\offers_table_model.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\gui\impl\offer_table_model.h"
+					RelativePath=".\gui\impl\offers_table_model.h"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
