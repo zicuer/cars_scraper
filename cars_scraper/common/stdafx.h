@@ -22,6 +22,7 @@ using namespace boost;
 #include <string>
 #include <vector>
 #include <list>
+#include <set>
 
 using namespace std;
 

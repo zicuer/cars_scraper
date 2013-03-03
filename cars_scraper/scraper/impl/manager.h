@@ -19,5 +19,8 @@ namespace impl
 
    private:
       filter_t filter_;
+
+   private:
+      Q_OBJECT
    };
 }}

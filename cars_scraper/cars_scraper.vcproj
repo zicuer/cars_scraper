@@ -287,6 +287,20 @@
 				<File
 					RelativePath=".\scraper\impl\manager.h"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="MOC"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="MOC"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\scraper\impl\page.cpp"
@@ -349,6 +363,32 @@
 				RelativePath=".\gui\main_window.ui"
 				>
 			</File>
+			<Filter
+				Name="impl"
+				>
+				<File
+					RelativePath=".\gui\impl\offer_table_model.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\gui\impl\offer_table_model.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="MOC"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="MOC"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\main.cpp"

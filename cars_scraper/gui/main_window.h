@@ -5,6 +5,11 @@
 
 namespace gui
 {
+   namespace impl
+   {
+      class offers_table_model_t;
+   }
+
    class main_window_t
       : public QMainWindow
    {
@@ -17,7 +22,7 @@ namespace gui
       void on_searching_stop  ();
       void on_clear ();
 
-      void on_show_offer ( int row, int column );
+      void on_show_offer ( QModelIndex const& index );
 
    // scraper
    private slots:
@@ -28,15 +33,13 @@ namespace gui
       void on_offers_founded ( unsigned count );
 
    private:
-      void update_progress ();
+      QAbstractProxyModel * proxy () const;
+      impl::offers_table_model_t * model () const;
+
+      void update ();
 
    private:
-      typedef
-         map<wstring, scraper::offer_t>
-         offers_t;
-
       scraper::scraper_t scraper_;
-      offers_t offers_;
 
       unsigned offers_founded_;
       unsigned offers_processed_;

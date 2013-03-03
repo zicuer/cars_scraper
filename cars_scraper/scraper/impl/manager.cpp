@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "manager.h"
+#include "manager_moc.h"
 
 namespace scraper {
 namespace impl
