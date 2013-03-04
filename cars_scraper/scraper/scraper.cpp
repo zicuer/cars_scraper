@@ -155,12 +155,12 @@ namespace scraper
                = request_->data<offer_t>();
             assert(offer);
 
-            requests_queue_.
-               push_front(request_t(offer->url, rt_offer));
+            request_->url = offer->url;
+            request_->type = rt_offer;
          }
-         else
-            requests_queue_
-               .push_front(*request_);
+
+         requests_queue_
+            .push_front(*request_);
       }
 
       request_.reset();
