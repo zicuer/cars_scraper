@@ -64,7 +64,7 @@ namespace scraper
       static wregex const space_expr (L"[\\s-]+");
       algorithm::erase_all_regex(phone_number_str, space_expr);
 
-      static wregex const phone_number_expr (L"(\\+7|8)?\\((\\d{3})\\)(\\d{7})",
+      static wregex const phone_number_expr (L"(\\+7|8)?\\((9\\d{2})\\)(\\d{7})",
                                              wregex::perl);
 
       wsmatch phone_number_match;

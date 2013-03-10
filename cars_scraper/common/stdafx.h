@@ -17,6 +17,7 @@
 #include <boost/algorithm/string/regex.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/join.hpp>
 #include <boost/noncopyable.hpp>
 
 using namespace boost;

@@ -88,6 +88,18 @@ namespace impl
          }
          break;
 
+      case Qt::ToolTipRole:
+         {
+            static wformat phone_fmt (L"+7(%s)%s");
+
+            vector<wstring> phones;
+            for each (scraper::phone_number_t const& i in offer.phone_numbers)
+               phones.push_back(str(phone_fmt % i.area_code % i.number));
+
+            return utils::to_variant(algorithm::join(phones, L"\n"));
+         }
+         break;
+
       case Qt::TextAlignmentRole:
          {
             switch (index.column())
