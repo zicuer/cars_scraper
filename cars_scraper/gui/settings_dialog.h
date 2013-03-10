@@ -1,6 +1,7 @@
 #pragma once
 
 #include "settings_dialog_ui.h"
+#include "send_test_dialog.h"
 
 namespace gui
 {
@@ -12,8 +13,12 @@ namespace gui
 
    // QDialog slots
    public slots:
-      void accept();
-      void reject();
+      void accept ();
+      void reject ();
+
+   private slots:
+      void on_apply ();
+      void on_test ();
 
    private:
       void read_settings ();
@@ -24,6 +29,7 @@ namespace gui
 
    private:
       Ui::settings_dialog ui_;
+      send_test_dialog_t * send_test_;
 
    private:
       Q_OBJECT

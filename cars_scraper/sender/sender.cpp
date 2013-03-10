@@ -14,7 +14,7 @@ namespace sender
    }
 
    void sender_t::send ( abonents_t const& abonents,
-                         wstring const& msg )
+                         wstring const& msg, bool force )
    {
       settings_t settings;
 
@@ -23,7 +23,7 @@ namespace sender
          settings.get_value<wstring>(L"sender/from");
       for each (wstring const& abonent in abonents)
       {
-         if (sended_.find(abonent) == sended_.end())
+         if (force || (sended_.find(abonent) == sended_.end()))
          {
             static wformat sms_fmt (L"<sms from=\"%s\" to=\"%s\">%s</sms>");
             sms.push_back(str(sms_fmt % from % abonent % msg));

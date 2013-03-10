@@ -390,6 +390,32 @@
 				>
 			</File>
 			<File
+				RelativePath=".\gui\send_test_dialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gui\send_test_dialog.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\gui\send_test_dialog.ui"
+				>
+			</File>
+			<File
 				RelativePath=".\gui\settings_dialog.cpp"
 				>
 			</File>

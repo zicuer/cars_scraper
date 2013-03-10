@@ -7,6 +7,7 @@ namespace gui
 {
    settings_dialog_t::settings_dialog_t ( QWidget * parent )
       : QDialog ( parent )
+      , send_test_ ( new send_test_dialog_t(this) )
    {
       ui_.setupUi(this);
       read_settings();
@@ -24,6 +25,18 @@ namespace gui
    {
       read_settings();
       QDialog::reject();
+   }
+
+   // slots
+   //////////////////////////////////////////////////////////////////////////
+   void settings_dialog_t::on_apply ()
+   {
+      write_settings();
+   }
+
+   void settings_dialog_t::on_test ()
+   {
+      send_test_->open();
    }
 
    // impl

@@ -26,7 +26,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "..\..\bin\cars_scraper\cars_scraper\Release\cars_scraper.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\bin\cars_scraper\cars_scraper\Release\settings.ini"; DestDir: "{app}"; Flags: ignoreversion
+Source: "cars_scraper\settings.ini"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#QtDir}bin\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#QtDir}bin\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#QtDir}bin\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion

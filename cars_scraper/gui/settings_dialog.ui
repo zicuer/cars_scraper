@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>321</width>
-    <height>265</height>
+    <height>268</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,8 +40,12 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="from"/>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="test">
+        <property name="text">
+         <string>Проверка</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="from_label">
@@ -49,6 +53,9 @@
          <string>Отправитель:</string>
         </property>
        </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="from"/>
       </item>
      </layout>
     </widget>
@@ -137,6 +144,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="apply">
+       <property name="text">
+        <string>Применить</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="cancel">
        <property name="text">
         <string>Отмена</string>
@@ -158,8 +172,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>120</x>
-     <y>77</y>
+     <x>148</x>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
      <x>27</x>
@@ -174,8 +188,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>213</x>
-     <y>83</y>
+     <x>310</x>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
      <x>-33</x>
@@ -183,5 +197,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>apply</sender>
+   <signal>clicked()</signal>
+   <receiver>settings_dialog</receiver>
+   <slot>on_apply()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>184</x>
+     <y>239</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-14</x>
+     <y>234</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>test</sender>
+   <signal>clicked()</signal>
+   <receiver>settings_dialog</receiver>
+   <slot>on_test()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>332</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>on_apply()</slot>
+  <slot>on_test()</slot>
+ </slots>
 </ui>

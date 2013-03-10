@@ -15,7 +15,7 @@ namespace sender
       explicit sender_t ( QObject * parent = NULL );
 
       void send ( abonents_t const& abonents,
-                  wstring const& msg );
+                  wstring const& msg, bool force = false );
 
    private slots:
       void on_finished ( QNetworkReply * reply );
