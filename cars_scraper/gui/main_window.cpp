@@ -1,7 +1,10 @@
 #include "stdafx.h"
+
 #include "main_window.h"
 #include "main_window_moc.h"
+
 #include "impl/offers_table_model.h"
+#include "send_dialog.h"
 
 namespace gui
 {
@@ -44,7 +47,7 @@ namespace gui
       : scraper_ ( this )
       , offers_founded_ ( 0u )
       , offers_processed_ ( 0u )
-      , send_widget_ ( this )
+      , send_dialog_ ( new send_dialog_t(this) )
    {
       ui_.setupUi(this);
 
@@ -123,7 +126,7 @@ namespace gui
 
    void main_window_t::on_send ()
    {
-      send_widget_.show();
+      send_dialog_->open();
    }
 
    void main_window_t::on_show_offer ( QModelIndex const& index )

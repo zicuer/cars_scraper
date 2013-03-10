@@ -364,11 +364,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\gui\send_widget.cpp"
+				RelativePath=".\gui\send_dialog.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\gui\send_widget.h"
+				RelativePath=".\gui\send_dialog.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -386,7 +386,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\gui\send_widget.ui"
+				RelativePath=".\gui\send_dialog.ui"
 				>
 			</File>
 			<Filter

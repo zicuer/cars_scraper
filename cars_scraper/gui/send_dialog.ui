@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>send_widget</class>
- <widget class="QWidget" name="send_widget">
+ <class>send_dialog</class>
+ <widget class="QDialog" name="send_dialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>415</width>
-    <height>175</height>
+    <width>433</width>
+    <height>177</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,9 @@
   <property name="windowIcon">
    <iconset resource="../resources/resources.qrc">
     <normaloff>:/icons/icons/sms.ico</normaloff>:/icons/icons/sms.ico</iconset>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -38,40 +41,40 @@
  </resources>
  <connections>
   <connection>
-   <sender>send</sender>
-   <signal>clicked()</signal>
-   <receiver>send_widget</receiver>
-   <slot>on_send()</slot>
+   <sender>msg</sender>
+   <signal>textChanged()</signal>
+   <receiver>send_dialog</receiver>
+   <slot>on_msg_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>231</x>
-     <y>157</y>
+     <x>53</x>
+     <y>50</y>
     </hint>
     <hint type="destinationlabel">
-     <x>429</x>
-     <y>116</y>
+     <x>-22</x>
+     <y>86</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>msg</sender>
-   <signal>textChanged()</signal>
-   <receiver>send_widget</receiver>
-   <slot>on_msg_changed()</slot>
+   <sender>send</sender>
+   <signal>clicked()</signal>
+   <receiver>send_dialog</receiver>
+   <slot>on_send()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>309</x>
-     <y>79</y>
+     <x>211</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
-     <x>430</x>
-     <y>68</y>
+     <x>-21</x>
+     <y>152</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>on_send()</slot>
   <slot>on_msg_changed()</slot>
+  <slot>on_send()</slot>
  </slots>
 </ui>

@@ -1,17 +1,17 @@
 #pragma once
 
-#include "send_widget_ui.h"
+#include "send_dialog_ui.h"
 #include "sender/sender.h"
 
 namespace gui
 {
    class main_window_t;
 
-   class send_widget_t
-      : public QWidget
+   class send_dialog_t
+      : public QDialog
    {
    public:
-      explicit send_widget_t ( main_window_t const* main_window );
+      explicit send_dialog_t ( main_window_t * main_window );
 
    private slots:
       void on_msg_changed ();
@@ -22,7 +22,7 @@ namespace gui
       sender::sender_t sender_;
 
    private:
-      Ui::send_widget ui_;
+      Ui::send_dialog ui_;
       main_window_t const* main_window_;
 
    private:

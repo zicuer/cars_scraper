@@ -1,7 +1,6 @@
 #pragma once
 
 #include "main_window_ui.h"
-#include "send_widget.h"
 #include "scraper/scraper.h"
 
 namespace gui
@@ -10,6 +9,8 @@ namespace gui
    {
       class offers_table_model_t;
    }
+
+   class send_dialog_t;
 
    class main_window_t
       : public QMainWindow
@@ -51,7 +52,7 @@ namespace gui
 
    private:
       Ui::main_window ui_;
-      send_widget_t send_widget_;
+      send_dialog_t * send_dialog_;
 
    private:
       Q_OBJECT
