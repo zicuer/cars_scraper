@@ -19,8 +19,8 @@
 		<CustomBuildRule
 			Name="RCC"
 			DisplayName="QT RCC"
-			CommandLine="xcopy /Q /C /Y $(InputPath) [WDirectory]\ 2&gt;NUL &amp;&amp; &quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;$(InputName)&quot; -no-compress -o &quot;$(IntDir)\qt\qrc_$(InputName).cpp&quot; [WDirectory]\$(InputFileName)"
-			Outputs="&quot;$(IntDir)\qt\qrc_$(InputName).cpp&quot;"
+			CommandLine="xcopy /Q /C /Y $(InputPath) [WDirectory]\ 2&gt;NUL &amp;&amp; &quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;$(InputName)&quot; -no-compress -o &quot;$(IntDir)\qt\$(InputName)_qrc.h&quot; [WDirectory]\$(InputFileName)"
+			Outputs="&quot;$(IntDir)\qt\$(InputName)_qrc.h&quot;"
 			AdditionalDependencies="&quot;$(QTDIR)\bin\rcc.exe&quot;;[QRCDependencies]"
 			FileExtensions="*.qrc"
 			ExecutionDescription="Rcc&apos;ing $(InputFileName)..."

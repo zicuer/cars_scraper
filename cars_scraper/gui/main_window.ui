@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Cars Scraper</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../resources/resources.qrc">
+    <normaloff>:/icons/icons/main.ico</normaloff>:/icons/icons/main.ico</iconset>
+  </property>
   <widget class="QWidget" name="central">
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">
@@ -123,7 +127,9 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>searching_start</sender>

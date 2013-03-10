@@ -390,6 +390,34 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="resources"
+			>
+			<File
+				RelativePath=".\resources\recources.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\resources.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\resources.qrc"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\resources.rc"
+				>
+			</File>
+			<Filter
+				Name="icons"
+				>
+				<File
+					RelativePath=".\resources\icons\main.ico"
+					>
+				</File>
+			</Filter>
+		</Filter>
 		<File
 			RelativePath=".\main.cpp"
 			>
