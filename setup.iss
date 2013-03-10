@@ -32,6 +32,9 @@ Source: "{#QtDir}bin\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#QtDir}bin\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#QtDir}bin\QtWebKit4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#QtDir}bin\QtXml4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}bin\QtSvg4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}plugins\*"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "libs\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
