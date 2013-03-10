@@ -92,10 +92,9 @@ namespace scraper
    //////////////////////////////////////////////////////////////////////////
    void scraper_t::on_loaded ( bool ok )
    {
-      if (!ok)
+      if (!ok || !request_)
          return;
 
-      assert(request_);
       if (!check_captcha())
       {
          bool processed = false;

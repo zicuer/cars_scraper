@@ -44,6 +44,7 @@ namespace gui
       : scraper_ ( this )
       , offers_founded_ ( 0u )
       , offers_processed_ ( 0u )
+      , send_widget_ ( this )
    {
       ui_.setupUi(this);
 
@@ -67,7 +68,26 @@ namespace gui
       QObject::connect(&scraper_, SIGNAL(offers_founded(unsigned)),
                        this, SLOT(on_offers_founded(unsigned)));
 
+      QObject::connect(ui_.table->selectionModel(), SIGNAL(selectionChanged(QItemSelection const&, QItemSelection const&)),
+                       this, SLOT(on_selection_changed()));
+
       update_ui();
+   }
+
+   vector<scraper::offer_t const*>
+      main_window_t::get_selected_offers () const
+   {
+      QModelIndexList const selected =
+         ui_.table->selectionModel()->selectedRows();
+
+      vector<scraper::offer_t const*> offers;
+      for (int i = 0, count = selected.size(); i != count; ++i)
+      {
+         int const row =
+            proxy()->mapToSource(selected[i]).row();
+         offers.push_back(&model()->get_offer(row));
+      }
+      return offers;
    }
 
    // gui slots
@@ -101,6 +121,11 @@ namespace gui
       update_ui();
    }
 
+   void main_window_t::on_send ()
+   {
+      send_widget_.show();
+   }
+
    void main_window_t::on_show_offer ( QModelIndex const& index )
    {
       scraper::offer_t const& offer =
@@ -108,12 +133,19 @@ namespace gui
 
       QWebView * view = new QWebView();
       view->setWindowTitle(utils::to_qt(offer.model));
+      view->setWindowIcon(QIcon(":/icons/icons/web.ico"));
 
       view->setWindowModality(Qt::ApplicationModal);
       view->setAttribute(Qt::WA_DeleteOnClose, true);
 
       view->load(offer.url);
       view->show();
+   }
+
+   void main_window_t::on_selection_changed ()
+   {
+      ui_.send->
+         setEnabled(!ui_.table->selectionModel()->selectedRows().isEmpty());
    }
 
    // scraper slots

@@ -74,7 +74,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtNetworkd4.lib QtWebKitd4.lib"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtNetworkd4.lib QtWebKitd4.lib QtXmld4.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(boostdir)lib;$(qtdir)lib"
 				GenerateDebugInformation="true"
@@ -160,7 +160,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtNetwork4.lib QtWebKit4.lib"
+				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtNetwork4.lib QtWebKit4.lib QtXml4.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(boostdir)lib;$(qtdir)lib"
 				GenerateDebugInformation="true"
@@ -363,6 +363,32 @@
 				RelativePath=".\gui\main_window.ui"
 				>
 			</File>
+			<File
+				RelativePath=".\gui\send_widget.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gui\send_widget.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\gui\send_widget.ui"
+				>
+			</File>
 			<Filter
 				Name="impl"
 				>
@@ -416,7 +442,41 @@
 					RelativePath=".\resources\icons\main.ico"
 					>
 				</File>
+				<File
+					RelativePath=".\resources\icons\sms.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\resources\icons\web.ico"
+					>
+				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="sender"
+			>
+			<File
+				RelativePath=".\sender\sender.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\sender\sender.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\main.cpp"

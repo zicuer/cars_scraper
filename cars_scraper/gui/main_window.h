@@ -1,6 +1,7 @@
 #pragma once
 
 #include "main_window_ui.h"
+#include "send_widget.h"
 #include "scraper/scraper.h"
 
 namespace gui
@@ -16,13 +17,18 @@ namespace gui
    public:
       main_window_t ();
 
+      vector<scraper::offer_t const*>
+         get_selected_offers () const;
+
    // gui
    private slots:
       void on_searching_start ();
       void on_searching_stop  ();
       void on_clear ();
+      void on_send ();
 
       void on_show_offer ( QModelIndex const& index );
+      void on_selection_changed ();
 
    // scraper
    private slots:
@@ -45,6 +51,7 @@ namespace gui
 
    private:
       Ui::main_window ui_;
+      send_widget_t send_widget_;
 
    private:
       Q_OBJECT

@@ -5,6 +5,7 @@
 #include <QtCore/QtCore>
 #include <QtGui/QtGui>
 #include <QtWebKit/QtWebKit>
+#include <QtXml/QtXml>
 
 #include <boost/optional.hpp>
 #include <boost/function.hpp>

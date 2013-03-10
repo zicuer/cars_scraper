@@ -61,8 +61,8 @@ namespace impl
 
       assert(index.model() ==
          static_cast<QAbstractItemModel const*>(this));
-      assert((index.row() >= offers_.size()) &&
-             (index.column() >= column_count));
+      assert((index.row() < offers_.size()) &&
+             (index.column() < column_count));
 
       scraper::offer_t const& offer =
          offers_[index.row()];
@@ -93,8 +93,8 @@ namespace impl
             static wformat phone_fmt (L"+7(%s)%s");
 
             vector<wstring> phones;
-            for each (scraper::phone_number_t const& i in offer.phone_numbers)
-               phones.push_back(str(phone_fmt % i.area_code % i.number));
+            for each (scraper::phone_number_t const& phone_number in offer.phone_numbers)
+               phones.push_back(str(phone_fmt % phone_number.area_code % phone_number.number));
 
             return utils::to_variant(algorithm::join(phones, L"\n"));
          }

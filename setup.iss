@@ -31,6 +31,7 @@ Source: "{#QtDir}bin\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#QtDir}bin\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#QtDir}bin\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#QtDir}bin\QtWebKit4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}bin\QtXml4.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

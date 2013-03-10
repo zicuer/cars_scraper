@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>send_widget</class>
+ <widget class="QWidget" name="send_widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>415</width>
+    <height>175</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Отправка смс</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resources/resources.qrc">
+    <normaloff>:/icons/icons/sms.ico</normaloff>:/icons/icons/sms.ico</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QPlainTextEdit" name="msg"/>
+   </item>
+   <item>
+    <widget class="QPushButton" name="send">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Отправить</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../resources/resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>send</sender>
+   <signal>clicked()</signal>
+   <receiver>send_widget</receiver>
+   <slot>on_send()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>231</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>429</x>
+     <y>116</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>msg</sender>
+   <signal>textChanged()</signal>
+   <receiver>send_widget</receiver>
+   <slot>on_msg_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>79</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>430</x>
+     <y>68</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>on_send()</slot>
+  <slot>on_msg_changed()</slot>
+ </slots>
+</ui>

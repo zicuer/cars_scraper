@@ -116,7 +116,8 @@ namespace impl
          QObject::connect(view, SIGNAL(destroyed()),
                           this, SIGNAL(canceled()));
 
-         view->setWindowTitle(utils::to_qt(L"web"));
+         view->setWindowTitle(utils::to_qt(L" "));
+         view->setWindowIcon(QIcon(":/icons/icons/web.ico"));
          view->setWindowModality(Qt::ApplicationModal);
 
          view->setAttribute(Qt::WA_DeleteOnClose, true);
