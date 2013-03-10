@@ -27,6 +27,7 @@ using namespace boost;
 #include <vector>
 #include <list>
 #include <set>
+#include <locale>
 
 using namespace std;
 

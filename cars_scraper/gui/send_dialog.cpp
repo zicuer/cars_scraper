@@ -7,6 +7,23 @@
 
 namespace gui
 {
+   namespace
+   {
+      bool is_russian ( wchar_t const ch )
+      {
+         return ((ch >= L'à' && ch <= L'ÿ') ||
+                 (ch >= L'À' && ch <= L'ß'));
+      }
+
+      bool is_russian ( wstring const& str )
+      {
+         for each (wchar_t ch in str)
+            if (is_russian(ch))
+               return true;
+         return false;
+      }
+   }
+
    send_dialog_t::send_dialog_t ( main_window_t * main_window )
       : QDialog ( main_window )
       , main_window_ ( main_window )
@@ -20,7 +37,24 @@ namespace gui
    //////////////////////////////////////////////////////////////////////////
    void send_dialog_t::on_msg_changed ()
    {
-      ui_.send->setEnabled(!ui_.msg->toPlainText().isEmpty());
+      wstring msg = utils::from_qt(ui_.msg->toPlainText());
+      ui_.send->setEnabled(!msg.empty());
+
+      unsigned const cur_length = msg.size();
+      unsigned const max_length = is_russian(msg) ? 70u : 140u;
+
+      if (cur_length > max_length)
+      {
+         ui_.msg->setPlainText(utils::to_qt(msg.substr(0, max_length)));
+         QTextCursor cursor = ui_.msg->textCursor();
+         cursor.setPosition(max_length);
+         ui_.msg->setTextCursor(cursor);
+      }
+      else
+      {
+         static wformat letters_fmt (L"%3d");
+         ui_.letters->setText(utils::to_qt(str(letters_fmt % (max_length - cur_length))));
+      }
    }
 
    void send_dialog_t::on_send ()

@@ -120,19 +120,20 @@
     <property name="title">
      <string>Файл</string>
     </property>
+    <addaction name="settings"/>
     <addaction name="quit"/>
    </widget>
    <addaction name="file_menu"/>
   </widget>
   <widget class="QStatusBar" name="status"/>
-  <action name="settings">
-   <property name="text">
-    <string>Настройки</string>
-   </property>
-  </action>
   <action name="quit">
    <property name="text">
     <string>Выйти</string>
+   </property>
+  </action>
+  <action name="settings">
+   <property name="text">
+    <string>Настройки</string>
    </property>
   </action>
  </widget>
@@ -174,7 +175,7 @@
   </connection>
   <connection>
    <sender>clear</sender>
-   <signal>pressed()</signal>
+   <signal>clicked()</signal>
    <receiver>main_window</receiver>
    <slot>on_clear()</slot>
    <hints>
@@ -236,6 +237,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>settings</sender>
+   <signal>triggered()</signal>
+   <receiver>main_window</receiver>
+   <slot>on_settings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>316</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_searching_start()</slot>
@@ -243,5 +260,6 @@
   <slot>on_clear()</slot>
   <slot>on_show_offer(QModelIndex)</slot>
   <slot>on_send()</slot>
+  <slot>on_settings()</slot>
  </slots>
 </ui>

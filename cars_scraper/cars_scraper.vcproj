@@ -389,6 +389,32 @@
 				RelativePath=".\gui\send_dialog.ui"
 				>
 			</File>
+			<File
+				RelativePath=".\gui\settings_dialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gui\settings_dialog.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\gui\settings_dialog.ui"
+				>
+			</File>
 			<Filter
 				Name="impl"
 				>

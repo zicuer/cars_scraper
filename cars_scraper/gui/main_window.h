@@ -11,6 +11,7 @@ namespace gui
    }
 
    class send_dialog_t;
+   class settings_dialog_t;
 
    class main_window_t
       : public QMainWindow
@@ -27,6 +28,7 @@ namespace gui
       void on_searching_stop  ();
       void on_clear ();
       void on_send ();
+      void on_settings ();
 
       void on_show_offer ( QModelIndex const& index );
       void on_selection_changed ();
@@ -52,6 +54,8 @@ namespace gui
 
    private:
       Ui::main_window ui_;
+
+      settings_dialog_t * settings_dialog_;
       send_dialog_t * send_dialog_;
 
    private:

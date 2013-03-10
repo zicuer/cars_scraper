@@ -5,6 +5,7 @@
 
 #include "impl/offers_table_model.h"
 #include "send_dialog.h"
+#include "settings_dialog.h"
 
 namespace gui
 {
@@ -48,6 +49,7 @@ namespace gui
       , offers_founded_ ( 0u )
       , offers_processed_ ( 0u )
       , send_dialog_ ( new send_dialog_t(this) )
+      , settings_dialog_ ( new settings_dialog_t(this) )
    {
       ui_.setupUi(this);
 
@@ -127,6 +129,11 @@ namespace gui
    void main_window_t::on_send ()
    {
       send_dialog_->open();
+   }
+
+   void main_window_t::on_settings ()
+   {
+      settings_dialog_->open();
    }
 
    void main_window_t::on_show_offer ( QModelIndex const& index )

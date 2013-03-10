@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>icons/settings.ico</file>
     <file>icons/web.ico</file>
     <file>icons/main.ico</file>
     <file>icons/sms.ico</file>
